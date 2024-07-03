@@ -1,0 +1,40 @@
+@startuml
+!theme toy
+
+entity "Produto" {
+    * id: Long
+    --
+    nome: String
+    preco: Double
+    estoque: int
+    ativo: boolean
+    --
+    adicionarProduto()
+    verProduto()
+    atualizarProduto()
+    excluirProduto()
+}
+
+entity "Venda" {
+    * id: Long
+    --
+    data: Date
+    total: Double
+    --
+    adicionarVendas()
+    verVendas()
+    atualizarVendas()
+    excluirVendas()
+    relatorioVendas()
+}
+
+entity "VendaProduto" {
+    * vendaId: Long
+    * produtoId: Long
+    --
+    quantidade: int
+}
+
+Produto ||--o{ VendaProduto: contém
+Venda ||--o{ VendaProduto: contém
+@enduml

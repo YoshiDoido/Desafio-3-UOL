@@ -5,6 +5,7 @@ entity "Produto" {
     * id: Long
     --
     nome: String
+    descricao: String
     preco: Double
     estoque: int
     ativo: boolean

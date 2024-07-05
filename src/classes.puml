@@ -22,11 +22,11 @@ entity "Venda" {
     data: Date
     total: Double
     --
-    adicionarVendas()
-    verVendas()
-    atualizarVendas()
-    excluirVendas()
-    relatorioVendas()
+    adicionarVenda()
+    verVenda()
+    atualizarVenda()
+    excluirVenda()
+    relatorioVenda()
 }
 
 entity "VendaProduto" {
@@ -38,4 +38,9 @@ entity "VendaProduto" {
 
 Produto ||--o{ VendaProduto: contém
 Venda ||--o{ VendaProduto: contém
+
+entity "Cache" {
+    * id: Long
+    --
+}
 @enduml

@@ -1,13 +1,17 @@
 package uol.compass.gabrielyoshino.ecommerce.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Produto {
@@ -33,7 +37,21 @@ public class Produto {
     @NotNull(message = "Status ativo do produto não pode ser nulo")
     private Boolean ativo;
 
+    @CreationTimestamp
+    @Column(updatable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+    private LocalDateTime dataCriacao;
+
+    @UpdateTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+    private LocalDateTime dataAtualizacao;
+
+    @OneToMany(mappedBy = "produto")
+    private List<VendaProduto> vendasProdutos;
+
     public Produto() {
+        // Isso faz com que toda vez que um produto novo seja criado, ele já seja criado como ativo
+        this.ativo = true;
     }
 
     public Produto(Long id, String nome, String descricao, Double preco, Integer estoque, Boolean ativo) {
@@ -93,6 +111,22 @@ public class Produto {
         this.ativo = ativo;
     }
 
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public LocalDateTime getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public List<VendaProduto> getVendasProdutos() {
+        return vendasProdutos;
+    }
+
+    public void setVendasProdutos(List<VendaProduto> vendasProdutos) {
+        this.vendasProdutos = vendasProdutos;
+    }
+
     @Override
     public String toString() {
         return "Produto{" +
@@ -102,6 +136,20 @@ public class Produto {
                 ", preco=" + preco +
                 ", estoque=" + estoque +
                 ", ativo=" + ativo +
+                ", dataCriacao=" + dataCriacao +
+                ", dataAtualizacao=" + dataAtualizacao +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Produto produto)) return false;
+        return Objects.equals(id, produto.id) && Objects.equals(nome, produto.nome) && Objects.equals(descricao, produto.descricao) && Objects.equals(preco, produto.preco) && Objects.equals(estoque, produto.estoque) && Objects.equals(ativo, produto.ativo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, descricao, preco, estoque, ativo);
     }
 }

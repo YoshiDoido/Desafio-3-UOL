@@ -9,11 +9,17 @@ entity "Produto" {
     preco: Double
     estoque: int
     ativo: boolean
+    dataCriacao: Date
+    dataModificacao: Date
     --
-    adicionarProduto()
-    verProduto()
+    criarProduto()
     atualizarProduto()
-    excluirProduto()
+    ativarProduto()
+    desativarProduto()
+    buscarProduto()
+    buscarTodosProdutos()
+    buscarProdutosAtivos()
+    buscarProdutosInativos()
 }
 
 entity "Venda" {
@@ -39,8 +45,4 @@ entity "VendaProduto" {
 Produto ||--o{ VendaProduto: contém
 Venda ||--o{ VendaProduto: contém
 
-entity "Cache" {
-    * id: Long
-    --
-}
 @enduml

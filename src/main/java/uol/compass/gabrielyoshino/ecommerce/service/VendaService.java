@@ -4,8 +4,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uol.compass.gabrielyoshino.ecommerce.entity.Produto;
 import uol.compass.gabrielyoshino.ecommerce.entity.Venda;
+import uol.compass.gabrielyoshino.ecommerce.entity.VendaProduto;
 import uol.compass.gabrielyoshino.ecommerce.exception.EstoqueInsuficienteException;
 import uol.compass.gabrielyoshino.ecommerce.repository.VendaRepository;
 
@@ -24,16 +24,15 @@ public class VendaService {
 
     @Transactional
     public Venda adicionarVenda(@Valid Venda venda) {
-        validarEstoque(venda.getProdutos());
-        venda.setData(LocalDateTime.now());
-        venda.setTotal(calcularTotal(venda.getProdutos()));
+        validarEstoque(venda.getProdutosVendidos());
+        venda.setTotal(calcularTotal(venda.getProdutosVendidos()));
         return vendaRepository.save(venda);
     }
 
     @Transactional
     public Venda atualizarVenda(Venda venda) {
-        validarEstoque(venda.getProdutos());
-        venda.setTotal(calcularTotal(venda.getProdutos()));
+        validarEstoque(venda.getProdutosVendidos());
+        venda.setTotal(calcularTotal(venda.getProdutosVendidos()));
         return vendaRepository.save(venda);
     }
 
@@ -42,37 +41,39 @@ public class VendaService {
         vendaRepository.deleteById(id);
     }
 
-    public Optional<Venda> verVenda(Long in) {
-        return vendaRepository.findById(in);
+    public Optional<Venda> buscarVenda(Long id) {
+        return vendaRepository.findById(id);
     }
 
-    public List<Venda> verVendas() {
+    public List<Venda> buscarTodasVendas() {
         return vendaRepository.findAll();
     }
 
-    // Mostrar venda semanal
+    // Mostrar vendas da semana atual
     public List<Venda> verVendasSemanal() {
-        LocalDateTime comecoDaSemana = LocalDate.now().with(TemporalAdjusters.previousOrSame(LocalDate.now().getDayOfWeek())).atStartOfDay();
-        LocalDateTime fimDaSemana = comecoDaSemana.plusWeeks(1).minusSeconds(1);
-        return vendaRepository.findByDataBetween(comecoDaSemana, fimDaSemana);
+        LocalDateTime inicioSemana = LocalDate.now().with(TemporalAdjusters.previousOrSame(LocalDate.now().getDayOfWeek())).atStartOfDay();
+        LocalDateTime fimSemana = inicioSemana.plusWeeks(1).minusSeconds(1);
+        return vendaRepository.findByDataBetween(inicioSemana, fimSemana);
     }
 
-    // Mostrar venda mensal
+    // Mostrar vendas do mês atual
     public List<Venda> verVendasMensal() {
-        LocalDateTime comecoDaSemana = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).atStartOfDay();
-        LocalDateTime fimDaSemana = comecoDaSemana.plusMonths(1).minusSeconds(1);
-        return vendaRepository.findByDataBetween(comecoDaSemana, fimDaSemana);
+        LocalDateTime inicioMes = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).atStartOfDay();
+        LocalDateTime fimMes = inicioMes.plusMonths(1).minusSeconds(1);
+        return vendaRepository.findByDataBetween(inicioMes, fimMes);
     }
 
-    private void validarEstoque(List<Produto> produtos) {
-        for (Produto produto : produtos) {
-            if (produto.getEstoque() < 1) {
-                throw new EstoqueInsuficienteException("Estoque insuficiente para o produto " + produto.getNome());
+    private void validarEstoque(List<VendaProduto> produtosVendidos) {
+        for (VendaProduto vendaProduto : produtosVendidos) {
+            if (vendaProduto.getProduto().getEstoque() < 1) {
+                throw new EstoqueInsuficienteException("Estoque insuficiente para o produto " + vendaProduto.getProduto().getNome());
             }
         }
     }
 
-    private Double calcularTotal(List<Produto> produtos) {
-        return produtos.stream().mapToDouble(Produto::getPreco).sum();
+    private Double calcularTotal(List<VendaProduto> produtosVendidos) {
+        return produtosVendidos.stream()
+                .mapToDouble(vendaProduto -> vendaProduto.getProduto().getPreco() * vendaProduto.getQuantidade())
+                .sum();
     }
 }

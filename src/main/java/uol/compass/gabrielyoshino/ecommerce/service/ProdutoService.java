@@ -34,11 +34,24 @@ public class ProdutoService {
 
     @Transactional
     /* Não pode excluir o produto diretamente, somente mudar seu status para inativo */
-    public Produto excluirProduto(Long id) {
+    public Produto desativarProduto(Long id) {
         Optional<Produto> produtoOptional = produtoRepository.findById(id);
         if (produtoOptional.isPresent()) {
             Produto produto = produtoOptional.get();
             produto.setAtivo(false);
+            return produtoRepository.save(produto);
+        } else {
+            throw new ProdutoNaoEncontradoException("Produto não encontrado");
+        }
+    }
+
+    /* Ativa um produto */
+    @Transactional
+    public Produto ativarProduto(Long id) {
+        Optional<Produto> produtoOptional = produtoRepository.findById(id);
+        if (produtoOptional.isPresent()) {
+            Produto produto = produtoOptional.get();
+            produto.setAtivo(true);
             return produtoRepository.save(produto);
         } else {
             throw new ProdutoNaoEncontradoException("Produto não encontrado");
@@ -51,7 +64,7 @@ public class ProdutoService {
     }
 
     /* Busca todos os produtos */
-    public List<Produto> buscarProdutos() {
+    public List<Produto> buscarTodosProdutos() {
         return produtoRepository.findAll();
     }
 

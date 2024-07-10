@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import uol.compass.gabrielyoshino.ecommerce.dto.ProdutoDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -50,7 +51,6 @@ public class Produto {
     private List<VendaProduto> vendasProdutos;
 
     public Produto() {
-        // Isso faz com que toda vez que um produto novo seja criado, ele já seja criado como ativo
         this.ativo = true;
     }
 
@@ -61,6 +61,17 @@ public class Produto {
         this.preco = preco;
         this.estoque = estoque;
         this.ativo = ativo;
+    }
+
+    // Conversão de Produto para ProdutoDTO
+    public ProdutoDTO toDTO() {
+        ProdutoDTO dto = new ProdutoDTO();
+        dto.setId(this.id);
+        dto.setNome(this.nome);
+        dto.setDescricao(this.descricao);
+        dto.setPreco(this.preco);
+        dto.setEstoque(this.estoque);
+        return dto;
     }
 
     public Long getId() {
@@ -145,7 +156,12 @@ public class Produto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Produto produto)) return false;
-        return Objects.equals(id, produto.id) && Objects.equals(nome, produto.nome) && Objects.equals(descricao, produto.descricao) && Objects.equals(preco, produto.preco) && Objects.equals(estoque, produto.estoque) && Objects.equals(ativo, produto.ativo);
+        return Objects.equals(id, produto.id) &&
+                Objects.equals(nome, produto.nome) &&
+                Objects.equals(descricao, produto.descricao) &&
+                Objects.equals(preco, produto.preco) &&
+                Objects.equals(estoque, produto.estoque) &&
+                Objects.equals(ativo, produto.ativo);
     }
 
     @Override

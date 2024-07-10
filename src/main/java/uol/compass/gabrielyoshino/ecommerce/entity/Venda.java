@@ -6,10 +6,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
+import uol.compass.gabrielyoshino.ecommerce.dto.VendaDTO;
+import uol.compass.gabrielyoshino.ecommerce.dto.VendaProdutoDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
 public class Venda {
@@ -44,6 +47,25 @@ public class Venda {
         this.total = total;
         this.produtosVendidos = produtosVendidos;
     }
+
+    // Conversão de Venda para VendaDTO
+    public VendaDTO toDTO() {
+        VendaDTO dto = new VendaDTO();
+        dto.setId(this.id);
+        dto.setData(this.data);
+        dto.setTotal(this.total);
+
+        // Converter a lista de VendaProduto para List<VendaProdutoDTO>
+        if (this.produtosVendidos != null) {
+            List<VendaProdutoDTO> produtosConvertidos = this.produtosVendidos.stream()
+                    .map(VendaProduto::toDTO)
+                    .collect(Collectors.toList());
+            dto.setProdutosVendidos(produtosConvertidos);
+        }
+
+        return dto;
+    }
+
 
     public Long getId() {
         return id;

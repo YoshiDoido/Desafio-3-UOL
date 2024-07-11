@@ -71,6 +71,7 @@ public class Produto {
         dto.setDescricao(this.descricao);
         dto.setPreco(this.preco);
         dto.setEstoque(this.estoque);
+        dto.setAtivo(this.ativo);
         return dto;
     }
 

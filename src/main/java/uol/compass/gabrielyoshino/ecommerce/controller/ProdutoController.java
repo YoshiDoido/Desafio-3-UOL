@@ -10,7 +10,7 @@ import uol.compass.gabrielyoshino.ecommerce.exception.ProdutoNaoEncontradoExcept
 import uol.compass.gabrielyoshino.ecommerce.service.ProdutoService;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/produtos")
@@ -25,27 +25,28 @@ public class ProdutoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(novoProduto);
     }
 
-    @PutMapping("/atualizar")
-    public ResponseEntity<Produto> atualizarProduto(@RequestBody Produto produto) {
-        Produto produtoAtualizado = produtoService.atualizarProduto(produto);
-        return ResponseEntity.status(HttpStatus.OK).body(produtoAtualizado);
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<Produto> atualizarProduto(@PathVariable Long id, @RequestBody @Valid Produto produto) {
+        Produto produtoAtualizado = produtoService.atualizarProduto(id, produto);
+        return ResponseEntity.ok(produtoAtualizado);
     }
 
+
     @DeleteMapping("/desativar/{id}")
-    public ResponseEntity<Produto> desativarProduto(@PathVariable Long id) {
+    public ResponseEntity<Void> desativarProduto(@PathVariable Long id) {
         try {
-            Produto produtoDesativado = produtoService.desativarProduto(id);
-            return ResponseEntity.status(HttpStatus.OK).body(produtoDesativado);
+            produtoService.desativarProduto(id);
+            return ResponseEntity.status(HttpStatus.OK).build();
         } catch (ProdutoNaoEncontradoException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @PutMapping("/ativar/{id}")
-    public ResponseEntity<Produto> ativarProduto(@PathVariable Long id) {
+    public ResponseEntity<Void> ativarProduto(@PathVariable Long id) {
         try {
-            Produto produtoAtivado = produtoService.ativarProduto(id);
-            return ResponseEntity.status(HttpStatus.OK).body(produtoAtivado);
+            produtoService.ativarProduto(id);
+            return ResponseEntity.status(HttpStatus.OK).build();
         } catch (ProdutoNaoEncontradoException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -53,8 +54,9 @@ public class ProdutoController {
 
     @GetMapping("/buscar-produto/{id}")
     public ResponseEntity<Produto> buscarProduto(@PathVariable Long id) {
-        Optional<Produto> produto = produtoService.buscarProduto(id);
-        return produto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return produtoService.buscarProduto(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/buscar-todos")

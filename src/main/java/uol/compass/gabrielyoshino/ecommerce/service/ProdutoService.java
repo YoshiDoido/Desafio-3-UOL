@@ -4,6 +4,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uol.compass.gabrielyoshino.ecommerce.entity.Produto;
+import uol.compass.gabrielyoshino.ecommerce.exception.ProdutoInvalidoException;
 import uol.compass.gabrielyoshino.ecommerce.exception.ProdutoNaoEncontradoException;
 import uol.compass.gabrielyoshino.ecommerce.repository.ProdutoRepository;
 
@@ -24,13 +25,23 @@ public class ProdutoService {
 
     @Transactional
     public Produto criarProduto(Produto produto) {
+        validarProduto(produto);
         return produtoRepository.save(produto);
     }
 
     @Transactional
-    public Produto atualizarProduto(Produto produto) {
-        return produtoRepository.save(produto);
+    public Produto atualizarProduto(Long id, Produto produto) {
+        Produto produtoAtualizado = buscarProduto(id)
+                .orElseThrow(() -> new ProdutoNaoEncontradoException("Produto não encontrado"));
+        produtoAtualizado.setNome(produtoAtualizado.getNome());
+        produtoAtualizado.setDescricao(produtoAtualizado.getDescricao());
+        produtoAtualizado.setPreco(produtoAtualizado.getPreco());
+        produtoAtualizado.setEstoque(produtoAtualizado.getEstoque());
+        produtoAtualizado.setAtivo(produtoAtualizado.getAtivo());
+
+        return produtoRepository.save(produtoAtualizado);
     }
+
 
     @Transactional
     /* Não pode excluir o produto diretamente, somente mudar seu status para inativo */
@@ -83,4 +94,15 @@ public class ProdutoService {
         return produtoRepository.findByNomeContaining(nome);
     }
 
+    public void validarProduto(Produto produto) {
+        if (produto.getNome() == null || produto.getNome().isEmpty()) {
+            throw new ProdutoInvalidoException("Nome do produto não pode ser vazio");
+        }
+        if (produto.getDescricao() == null || produto.getDescricao().isEmpty()) {
+            throw new ProdutoInvalidoException("Descrição do produto não pode ser vazia");
+        }
+        if (produto.getPreco() == null || produto.getPreco() <= 0) {
+            throw new ProdutoInvalidoException("Preço do produto não pode ser nulo ou negativo");
+        }
+    }
 }

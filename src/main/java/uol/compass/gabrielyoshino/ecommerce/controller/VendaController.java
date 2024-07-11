@@ -2,9 +2,11 @@ package uol.compass.gabrielyoshino.ecommerce.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uol.compass.gabrielyoshino.ecommerce.dto.VendaDTO;
 import uol.compass.gabrielyoshino.ecommerce.entity.Venda;
 import uol.compass.gabrielyoshino.ecommerce.service.VendaService;
 
@@ -18,8 +20,8 @@ public class VendaController {
     private VendaService vendaService;
 
     @PostMapping("/adicionar")
-    public ResponseEntity<Venda> adicionarVenda(@RequestBody @Valid Venda venda) {
-        Venda novaVenda = vendaService.adicionarVenda(venda);
+    public ResponseEntity<Venda> adicionarVenda(@RequestBody @Valid VendaDTO dto) {
+        Venda novaVenda = vendaService.adicionarVenda(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(novaVenda);
     }
 

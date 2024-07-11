@@ -6,13 +6,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
-import uol.compass.gabrielyoshino.ecommerce.dto.VendaDTO;
-import uol.compass.gabrielyoshino.ecommerce.dto.VendaProdutoDTO;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Entity
 public class Venda {
@@ -22,23 +20,19 @@ public class Venda {
     private Long id;
 
     @Column(nullable = false)
-    @NotNull(message = "Data da venda não pode ser nula")
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime data;
 
     @Column(nullable = false)
-    @NotNull(message = "Total da venda não pode ser nulo")
-    @PositiveOrZero(message = "Total da venda deve ser maior ou igual a zero")
     private Double total;
 
-    @NotNull(message = "Lista de produtos não pode ser nula")
-    @Size(min = 1, message = "Lista de produtos deve conter pelo menos um produto")
     @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<VendaProduto> produtosVendidos;
 
 
     public Venda() {
+        this.produtosVendidos = new ArrayList<>();
     }
 
     public Venda(Long id, LocalDateTime data, Double total ,List<VendaProduto> produtosVendidos) {
@@ -46,24 +40,6 @@ public class Venda {
         this.data = data;
         this.total = total;
         this.produtosVendidos = produtosVendidos;
-    }
-
-    // Conversão de Venda para VendaDTO
-    public VendaDTO toDTO() {
-        VendaDTO dto = new VendaDTO();
-        dto.setId(this.id);
-        dto.setData(this.data);
-        dto.setTotal(this.total);
-
-        // Converter a lista de VendaProduto para List<VendaProdutoDTO>
-        if (this.produtosVendidos != null) {
-            List<VendaProdutoDTO> produtosConvertidos = this.produtosVendidos.stream()
-                    .map(VendaProduto::toDTO)
-                    .collect(Collectors.toList());
-            dto.setProdutosVendidos(produtosConvertidos);
-        }
-
-        return dto;
     }
 
 
@@ -75,11 +51,11 @@ public class Venda {
         this.id = id;
     }
 
-    public @NotNull(message = "Data da venda não pode ser nula") LocalDateTime getData() {
+    public LocalDateTime getData() {
         return data;
     }
 
-    public void setData(@NotNull(message = "Data da venda não pode ser nula") LocalDateTime data) {
+    public void setData(LocalDateTime data) {
         this.data = data;
     }
 

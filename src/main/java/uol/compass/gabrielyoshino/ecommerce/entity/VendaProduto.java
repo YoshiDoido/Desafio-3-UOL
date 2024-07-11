@@ -11,7 +11,6 @@ public class VendaProduto {
     @EmbeddedId
     private VendaProdutoId id = new VendaProdutoId();
 
-    @NotNull(message = "Quantidade não pode ser nula")
     @Min(value = 1, message = "Quantidade deve ser maior que zero")
     private Integer quantidade;
 

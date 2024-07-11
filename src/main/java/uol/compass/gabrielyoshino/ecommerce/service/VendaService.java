@@ -6,10 +6,13 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import uol.compass.gabrielyoshino.ecommerce.dto.VendaDTO;
 import uol.compass.gabrielyoshino.ecommerce.dto.VendaProdutoDTO;
+import uol.compass.gabrielyoshino.ecommerce.entity.Produto;
 import uol.compass.gabrielyoshino.ecommerce.entity.Venda;
 import uol.compass.gabrielyoshino.ecommerce.entity.VendaProduto;
 import uol.compass.gabrielyoshino.ecommerce.exception.EstoqueInsuficienteException;
+import uol.compass.gabrielyoshino.ecommerce.exception.ProdutoNaoEncontradoException;
 import uol.compass.gabrielyoshino.ecommerce.exception.VendaNaoEncontradaException;
 import uol.compass.gabrielyoshino.ecommerce.repository.VendaRepository;
 
@@ -26,9 +29,20 @@ public class VendaService {
     @Autowired
     private VendaRepository vendaRepository;
 
+    @Autowired
+    private ProdutoService produtoService;
+
     @Transactional
     @CacheEvict(value = "vendas", allEntries = true)
-    public Venda adicionarVenda(@Valid Venda venda) {
+    public Venda adicionarVenda(@Valid VendaDTO dto) {
+        Venda venda = new Venda();
+        for (VendaProdutoDTO vendaProdutoDTO : dto.getProdutosVendidos()) {
+            Produto produto = produtoService.buscarProduto(vendaProdutoDTO.getProdutoId()).orElseThrow(() -> new ProdutoNaoEncontradoException("Produto não encontrado"));
+            VendaProduto vendaProduto = new VendaProduto();
+            vendaProduto.setProduto(produto);
+            vendaProduto.setQuantidade(vendaProdutoDTO.getQuantidade());
+            venda.getProdutosVendidos().add(vendaProduto);
+        }
         validarEstoque(venda.getProdutosVendidos());
         venda.setTotal(calcularTotal(venda.getProdutosVendidos()));
         return vendaRepository.save(venda);
@@ -76,7 +90,8 @@ public class VendaService {
 
     private void validarEstoque(List<VendaProduto> produtosVendidos) {
         for (VendaProduto vendaProduto : produtosVendidos) {
-            if (vendaProduto.getProduto().getEstoque() < 1) {
+            Integer estoque = vendaProduto.getProduto().getEstoque();
+            if (estoque == null || estoque < 1) {
                 throw new EstoqueInsuficienteException("Estoque insuficiente para o produto " + vendaProduto.getProduto().getNome());
             }
         }

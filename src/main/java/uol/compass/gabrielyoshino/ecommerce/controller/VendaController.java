@@ -43,6 +43,7 @@ public class VendaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+
     @GetMapping("/buscar-todas")
     public ResponseEntity<List<Venda>> verTodasVendas() {
         List<Venda> vendas = vendaService.buscarTodasVendas();

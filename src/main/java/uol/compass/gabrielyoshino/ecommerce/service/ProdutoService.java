@@ -1,5 +1,9 @@
 package uol.compass.gabrielyoshino.ecommerce.service;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,11 +15,6 @@ import uol.compass.gabrielyoshino.ecommerce.repository.ProdutoRepository;
 import java.util.List;
 import java.util.Optional;
 
-/*
-*  Classe de serviço para o gerenciamento do produtos dentro do sistema de e-commerce.
-*  Possui métodos para criar, atualizar, excluir, buscar e listar produtos por diferentes critérios.
-*  Ela interage com o {@link ProdutoRepository} para realizar as operações CRUD de produtos no banco de dados
-*/
 @Service
 @Transactional(readOnly = true)
 public class ProdutoService {
@@ -24,27 +23,30 @@ public class ProdutoService {
     private ProdutoRepository produtoRepository;
 
     @Transactional
+    @Caching(put = {@CachePut(value = "produto", key = "#produto.id")},
+            evict = {@CacheEvict(value = "produtos", allEntries = true)})
     public Produto criarProduto(Produto produto) {
         validarProduto(produto);
         return produtoRepository.save(produto);
     }
 
     @Transactional
+    @Caching(put = {@CachePut(value = "produto", key = "#id")},
+            evict = {@CacheEvict(value = "produtos", allEntries = true)})
     public Produto atualizarProduto(Long id, Produto produto) {
         Produto produtoAtualizado = buscarProduto(id)
                 .orElseThrow(() -> new ProdutoNaoEncontradoException("Produto não encontrado"));
-        produtoAtualizado.setNome(produtoAtualizado.getNome());
-        produtoAtualizado.setDescricao(produtoAtualizado.getDescricao());
-        produtoAtualizado.setPreco(produtoAtualizado.getPreco());
-        produtoAtualizado.setEstoque(produtoAtualizado.getEstoque());
-        produtoAtualizado.setAtivo(produtoAtualizado.getAtivo());
-
+        produtoAtualizado.setNome(produto.getNome());
+        produtoAtualizado.setDescricao(produto.getDescricao());
+        produtoAtualizado.setPreco(produto.getPreco());
+        produtoAtualizado.setEstoque(produto.getEstoque());
+        produtoAtualizado.setAtivo(produto.getAtivo());
         return produtoRepository.save(produtoAtualizado);
     }
 
-
     @Transactional
-    /* Não pode excluir o produto diretamente, somente mudar seu status para inativo */
+    @Caching(evict = {@CacheEvict(value = "produto", key = "#id"),
+            @CacheEvict(value = "produtos", allEntries = true)})
     public Produto desativarProduto(Long id) {
         Optional<Produto> produtoOptional = produtoRepository.findById(id);
         if (produtoOptional.isPresent()) {
@@ -56,8 +58,9 @@ public class ProdutoService {
         }
     }
 
-    /* Ativa um produto */
     @Transactional
+    @Caching(evict = {@CacheEvict(value = "produto", key = "#id"),
+            @CacheEvict(value = "produtos", allEntries = true)})
     public Produto ativarProduto(Long id) {
         Optional<Produto> produtoOptional = produtoRepository.findById(id);
         if (produtoOptional.isPresent()) {
@@ -69,27 +72,27 @@ public class ProdutoService {
         }
     }
 
-    /* Busca um produto pelo id */
+    @Cacheable(value = "produto", key = "#id")
     public Optional<Produto> buscarProduto(Long id) {
         return produtoRepository.findById(id);
     }
 
-    /* Busca todos os produtos */
+    @Cacheable("produtos")
     public List<Produto> buscarTodosProdutos() {
         return produtoRepository.findAll();
     }
 
-    /* Busca todos os produtos ativos */
+    @Cacheable("produtosAtivos")
     public List<Produto> buscarProdutosAtivos() {
         return produtoRepository.findByAtivo(true);
     }
 
-    /* Busca todos os produtos inativos */
+    @Cacheable("produtosInativos")
     public List<Produto> buscarProdutosInativos() {
         return produtoRepository.findByAtivo(false);
     }
 
-    /* Busca os produtos pelo nome */
+    @Cacheable(value = "produtosPorNome", key = "#nome")
     public List<Produto> buscarProdutosPorNome(String nome) {
         return produtoRepository.findByNomeContaining(nome);
     }

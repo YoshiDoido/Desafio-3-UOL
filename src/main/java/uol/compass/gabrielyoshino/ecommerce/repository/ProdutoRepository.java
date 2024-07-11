@@ -10,7 +10,6 @@ import java.util.List;
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
-    @Query("SELECT p FROM Produto p WHERE p.ativo = true")
     List<Produto> findByAtivo(boolean ativo);
 
     @Query("SELECT p FROM Produto p WHERE p.nome LIKE %:nome%")

@@ -1,6 +1,7 @@
 package uol.compass.gabrielyoshino.ecommerce.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -27,7 +28,10 @@ public class Venda {
     @Column(nullable = false)
     private Double total;
 
-    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    // A causa do erro era por que tinha o cascade = CascadeType.ALL
+    @OneToMany(mappedBy = "venda",fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<VendaProduto> produtosVendidos;
 
 

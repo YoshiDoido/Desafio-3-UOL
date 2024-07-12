@@ -13,7 +13,6 @@ import uol.compass.gabrielyoshino.ecommerce.entity.Venda;
 import uol.compass.gabrielyoshino.ecommerce.entity.VendaProduto;
 import uol.compass.gabrielyoshino.ecommerce.exception.EstoqueInsuficienteException;
 import uol.compass.gabrielyoshino.ecommerce.exception.ProdutoNaoEncontradoException;
-import uol.compass.gabrielyoshino.ecommerce.exception.VendaNaoEncontradaException;
 import uol.compass.gabrielyoshino.ecommerce.repository.VendaRepository;
 
 import java.time.LocalDate;
@@ -37,10 +36,12 @@ public class VendaService {
     public Venda adicionarVenda(@Valid VendaDTO dto) {
         Venda venda = new Venda();
         for (VendaProdutoDTO vendaProdutoDTO : dto.getProdutosVendidos()) {
-            Produto produto = produtoService.buscarProduto(vendaProdutoDTO.getProdutoId()).orElseThrow(() -> new ProdutoNaoEncontradoException("Produto não encontrado"));
+            Produto produto = produtoService.buscarProduto(vendaProdutoDTO.getProdutoId())
+                    .orElseThrow(() -> new ProdutoNaoEncontradoException("Produto não encontrado"));
             VendaProduto vendaProduto = new VendaProduto();
             vendaProduto.setProduto(produto);
             vendaProduto.setQuantidade(vendaProdutoDTO.getQuantidade());
+            vendaProduto.setVenda(venda);
             venda.getProdutosVendidos().add(vendaProduto);
         }
         validarEstoque(venda.getProdutosVendidos());

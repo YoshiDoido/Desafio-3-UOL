@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import uol.compass.gabrielyoshino.ecommerce.exception.user.UsuarioNaoEncontradoException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -29,6 +30,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(VendaNaoEncontradaException.class)
     public ResponseEntity<ErrorResponse> handleVendaNaoEncontradaException(VendaNaoEncontradaException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), "Not Found", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleUsuarioNaoEncontradoException(UsuarioNaoEncontradoException ex) {
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), "Not Found", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }

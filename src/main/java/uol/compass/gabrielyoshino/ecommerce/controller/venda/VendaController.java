@@ -1,14 +1,13 @@
-package uol.compass.gabrielyoshino.ecommerce.controller;
+package uol.compass.gabrielyoshino.ecommerce.controller.venda;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uol.compass.gabrielyoshino.ecommerce.dto.VendaDTO;
-import uol.compass.gabrielyoshino.ecommerce.entity.Venda;
-import uol.compass.gabrielyoshino.ecommerce.service.VendaService;
+import uol.compass.gabrielyoshino.ecommerce.dto.venda.VendaDTO;
+import uol.compass.gabrielyoshino.ecommerce.entity.venda.Venda;
+import uol.compass.gabrielyoshino.ecommerce.service.venda.VendaService;
 
 import java.util.List;
 

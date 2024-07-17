@@ -1,9 +1,10 @@
-package uol.compass.gabrielyoshino.ecommerce.entity;
+package uol.compass.gabrielyoshino.ecommerce.entity.vendaproduto;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import uol.compass.gabrielyoshino.ecommerce.dto.VendaProdutoDTO;
+import uol.compass.gabrielyoshino.ecommerce.dto.vendaproduto.VendaProdutoDTO;
+import uol.compass.gabrielyoshino.ecommerce.entity.produto.Produto;
+import uol.compass.gabrielyoshino.ecommerce.entity.venda.Venda;
 
 @Entity
 public class VendaProduto {

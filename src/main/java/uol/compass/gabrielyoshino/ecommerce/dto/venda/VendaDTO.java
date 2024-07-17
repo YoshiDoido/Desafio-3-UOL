@@ -1,4 +1,6 @@
-package uol.compass.gabrielyoshino.ecommerce.dto;
+package uol.compass.gabrielyoshino.ecommerce.dto.venda;
+
+import uol.compass.gabrielyoshino.ecommerce.dto.vendaproduto.VendaProdutoDTO;
 
 import java.util.ArrayList;
 import java.util.List;

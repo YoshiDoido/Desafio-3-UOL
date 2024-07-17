@@ -1,10 +1,10 @@
-package uol.compass.gabrielyoshino.ecommerce.dto;
+package uol.compass.gabrielyoshino.ecommerce.dto.produto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import uol.compass.gabrielyoshino.ecommerce.entity.Produto;
+import uol.compass.gabrielyoshino.ecommerce.entity.produto.Produto;
 
 public class ProdutoDTO {
 

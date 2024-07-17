@@ -11,6 +11,7 @@ import uol.compass.gabrielyoshino.ecommerce.entity.user.User;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Date;
 
 @Service
 public class TokenService {
@@ -21,11 +22,13 @@ public class TokenService {
     public String generateToken(User user) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
+            Instant now = Instant.now();
 
             String token = JWT.create()
                     .withIssuer("login-auth-api")
                     .withSubject(user.getEmail())
-                    .withExpiresAt(this.generateExpirationDate())
+                    .withIssuedAt(Date.from(now))
+                    .withExpiresAt(Date.from(now.plusSeconds(3600))) // 1 Hora de expiração
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException e) {

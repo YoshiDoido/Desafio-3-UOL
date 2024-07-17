@@ -1,7 +1,4 @@
-package uol.compass.gabrielyoshino.ecommerce.dto;
-
-import uol.compass.gabrielyoshino.ecommerce.entity.Produto;
-import uol.compass.gabrielyoshino.ecommerce.entity.VendaProduto;
+package uol.compass.gabrielyoshino.ecommerce.dto.vendaproduto;
 
 public class VendaProdutoDTO {
 

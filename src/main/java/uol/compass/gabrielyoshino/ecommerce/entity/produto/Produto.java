@@ -1,4 +1,4 @@
-package uol.compass.gabrielyoshino.ecommerce.entity;
+package uol.compass.gabrielyoshino.ecommerce.entity.produto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
@@ -8,7 +8,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import uol.compass.gabrielyoshino.ecommerce.dto.ProdutoDTO;
+import uol.compass.gabrielyoshino.ecommerce.dto.produto.ProdutoDTO;
+import uol.compass.gabrielyoshino.ecommerce.entity.vendaproduto.VendaProduto;
 
 import java.time.LocalDateTime;
 import java.util.List;

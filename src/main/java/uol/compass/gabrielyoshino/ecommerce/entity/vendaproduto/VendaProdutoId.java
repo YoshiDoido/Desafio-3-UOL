@@ -1,4 +1,4 @@
-package uol.compass.gabrielyoshino.ecommerce.entity;
+package uol.compass.gabrielyoshino.ecommerce.entity.vendaproduto;
 
 import jakarta.persistence.Embeddable;
 import java.io.Serializable;

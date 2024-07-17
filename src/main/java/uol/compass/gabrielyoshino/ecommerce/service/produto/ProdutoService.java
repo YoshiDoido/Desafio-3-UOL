@@ -1,4 +1,4 @@
-package uol.compass.gabrielyoshino.ecommerce.service;
+package uol.compass.gabrielyoshino.ecommerce.service.produto;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -7,10 +7,10 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uol.compass.gabrielyoshino.ecommerce.entity.Produto;
-import uol.compass.gabrielyoshino.ecommerce.exception.ProdutoInvalidoException;
-import uol.compass.gabrielyoshino.ecommerce.exception.ProdutoNaoEncontradoException;
-import uol.compass.gabrielyoshino.ecommerce.repository.ProdutoRepository;
+import uol.compass.gabrielyoshino.ecommerce.entity.produto.Produto;
+import uol.compass.gabrielyoshino.ecommerce.exception.produto.ProdutoInvalidoException;
+import uol.compass.gabrielyoshino.ecommerce.exception.produto.ProdutoNaoEncontradoException;
+import uol.compass.gabrielyoshino.ecommerce.repository.produto.ProdutoRepository;
 
 import java.util.List;
 import java.util.Optional;

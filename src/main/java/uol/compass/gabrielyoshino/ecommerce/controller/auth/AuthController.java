@@ -10,7 +10,7 @@ import uol.compass.gabrielyoshino.ecommerce.entity.user.User;
 import uol.compass.gabrielyoshino.ecommerce.exception.user.UsuarioNaoEncontradoException;
 import uol.compass.gabrielyoshino.ecommerce.repository.user.UserRepository;
 import uol.compass.gabrielyoshino.ecommerce.security.TokenService;
-import uol.compass.gabrielyoshino.ecommerce.service.user.PasswordResetService;
+import uol.compass.gabrielyoshino.ecommerce.service.auth.PasswordResetService;
 
 import java.util.Optional;
 

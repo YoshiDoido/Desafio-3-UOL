@@ -1,16 +1,15 @@
-package uol.compass.gabrielyoshino.ecommerce.controller;
+package uol.compass.gabrielyoshino.ecommerce.controller.produto;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uol.compass.gabrielyoshino.ecommerce.entity.Produto;
-import uol.compass.gabrielyoshino.ecommerce.exception.ProdutoNaoEncontradoException;
-import uol.compass.gabrielyoshino.ecommerce.service.ProdutoService;
+import uol.compass.gabrielyoshino.ecommerce.entity.produto.Produto;
+import uol.compass.gabrielyoshino.ecommerce.exception.produto.ProdutoNaoEncontradoException;
+import uol.compass.gabrielyoshino.ecommerce.service.produto.ProdutoService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/produtos")

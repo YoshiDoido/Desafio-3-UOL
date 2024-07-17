@@ -1,8 +1,8 @@
-package uol.compass.gabrielyoshino.ecommerce.repository;
+package uol.compass.gabrielyoshino.ecommerce.repository.venda;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import uol.compass.gabrielyoshino.ecommerce.entity.Venda;
+import uol.compass.gabrielyoshino.ecommerce.entity.venda.Venda;
 
 import java.time.LocalDateTime;
 import java.util.List;

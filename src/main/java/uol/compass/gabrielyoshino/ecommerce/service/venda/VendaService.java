@@ -1,4 +1,4 @@
-package uol.compass.gabrielyoshino.ecommerce.service;
+package uol.compass.gabrielyoshino.ecommerce.service.venda;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,14 +6,15 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uol.compass.gabrielyoshino.ecommerce.dto.VendaDTO;
-import uol.compass.gabrielyoshino.ecommerce.dto.VendaProdutoDTO;
-import uol.compass.gabrielyoshino.ecommerce.entity.Produto;
-import uol.compass.gabrielyoshino.ecommerce.entity.Venda;
-import uol.compass.gabrielyoshino.ecommerce.entity.VendaProduto;
-import uol.compass.gabrielyoshino.ecommerce.exception.EstoqueInsuficienteException;
-import uol.compass.gabrielyoshino.ecommerce.exception.ProdutoNaoEncontradoException;
-import uol.compass.gabrielyoshino.ecommerce.repository.VendaRepository;
+import uol.compass.gabrielyoshino.ecommerce.dto.venda.VendaDTO;
+import uol.compass.gabrielyoshino.ecommerce.dto.vendaproduto.VendaProdutoDTO;
+import uol.compass.gabrielyoshino.ecommerce.entity.produto.Produto;
+import uol.compass.gabrielyoshino.ecommerce.entity.venda.Venda;
+import uol.compass.gabrielyoshino.ecommerce.entity.vendaproduto.VendaProduto;
+import uol.compass.gabrielyoshino.ecommerce.exception.produto.EstoqueInsuficienteException;
+import uol.compass.gabrielyoshino.ecommerce.exception.produto.ProdutoNaoEncontradoException;
+import uol.compass.gabrielyoshino.ecommerce.repository.venda.VendaRepository;
+import uol.compass.gabrielyoshino.ecommerce.service.produto.ProdutoService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

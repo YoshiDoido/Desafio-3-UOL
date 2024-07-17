@@ -5,7 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import uol.compass.gabrielyoshino.ecommerce.exception.produto.EstoqueInsuficienteException;
+import uol.compass.gabrielyoshino.ecommerce.exception.produto.ProdutoInvalidoException;
+import uol.compass.gabrielyoshino.ecommerce.exception.produto.ProdutoNaoEncontradoException;
 import uol.compass.gabrielyoshino.ecommerce.exception.user.UsuarioNaoEncontradoException;
+import uol.compass.gabrielyoshino.ecommerce.exception.venda.VendaNaoEncontradaException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

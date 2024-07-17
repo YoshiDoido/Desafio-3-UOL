@@ -1,9 +1,9 @@
-package uol.compass.gabrielyoshino.ecommerce.repository;
+package uol.compass.gabrielyoshino.ecommerce.repository.produto;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import uol.compass.gabrielyoshino.ecommerce.entity.Produto;
+import uol.compass.gabrielyoshino.ecommerce.entity.produto.Produto;
 
 import java.util.List;
 

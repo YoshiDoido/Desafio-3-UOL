@@ -1,4 +1,4 @@
-package uol.compass.gabrielyoshino.ecommerce.entity;
+package uol.compass.gabrielyoshino.ecommerce.entity.venda;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
+import uol.compass.gabrielyoshino.ecommerce.entity.vendaproduto.VendaProduto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

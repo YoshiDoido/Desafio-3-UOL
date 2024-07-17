@@ -1,4 +1,4 @@
-package uol.compass.gabrielyoshino.ecommerce.service.user;
+package uol.compass.gabrielyoshino.ecommerce.service.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

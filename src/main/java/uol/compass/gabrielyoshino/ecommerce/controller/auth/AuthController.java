@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import uol.compass.gabrielyoshino.ecommerce.dto.auth.LoginRequestDTO;
 import uol.compass.gabrielyoshino.ecommerce.dto.auth.RegisterRequestDTO;
+import uol.compass.gabrielyoshino.ecommerce.dto.auth.ResetPasswordDTO;
 import uol.compass.gabrielyoshino.ecommerce.dto.auth.ResponseDTO;
 import uol.compass.gabrielyoshino.ecommerce.entity.user.User;
 import uol.compass.gabrielyoshino.ecommerce.exception.user.UsuarioNaoEncontradoException;
@@ -59,7 +60,17 @@ public class AuthController {
     }
 
     @PostMapping("/reset")
-    public void resetPassword(@RequestParam String email) {
+    public ResponseEntity<Void> resetPassword(@RequestParam String email) {
         passwordResetService.resetPassword(email);
+        return ResponseEntity.ok().build();
     }
+
+    // Método para gerar nova senha com base no token recebido pelo email
+    @PostMapping("/reset-password")
+    public ResponseEntity<Void> newPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) {
+        passwordResetService.updatePassword(resetPasswordDTO.token(), resetPasswordDTO.password());
+        return ResponseEntity.ok().build();
+    }
+
+
 }

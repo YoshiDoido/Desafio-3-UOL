@@ -20,6 +20,10 @@ public class User {
     @Column(name = "perfil")
     private Set<String> roles;
 
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "temp_token_id")
+    private TempToken tempToken;
+
     public User() {
     }
 
@@ -68,5 +72,13 @@ public class User {
 
     public void setRoles(Set<String> roles) {
         this.roles = roles;
+    }
+
+    public TempToken getTempToken() {
+        return tempToken;
+    }
+
+    public void setTempToken(TempToken tempToken) {
+        this.tempToken = tempToken;
     }
 }

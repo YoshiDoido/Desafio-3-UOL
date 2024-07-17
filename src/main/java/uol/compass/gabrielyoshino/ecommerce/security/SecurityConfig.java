@@ -31,9 +31,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         // Revisar abaixo
                         .requestMatchers(HttpMethod.POST, "/auth/reset").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/reset-password").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/produtos").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/produtos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/produtos/**").hasRole("ADMIN")
+                        // Tentei restringir o acesso do H2 somente aos Admin
+                        .requestMatchers("/h2-console/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

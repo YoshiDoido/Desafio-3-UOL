@@ -25,6 +25,17 @@ Para a sua segurança, foi implementado um sistema de autenticação e autoriza�
 - **Tratamento de Exceções**
     - Algumas exceções específicas são tratadas e retornam a mesma resposta.
 
+- **Envio de Email Automático**
+  - O sistema permite o cadastro e envio de emails por Gmail.
+  - O sistema envia um email automático caso o usuário solicite a recuperação de senha.
+
+- **Autenticação e Autorização**
+  - O Sistema utiliza JWT para autenticação e autorização.
+  - O sistema permite que o usuário se cadastre e faça login.
+  - O sistema permite que o usuário altere a senha por envio de um email automático contendo um token para a redefinição de senha.
+  - O sistema permite que somente administradores criem, atualizem e excluam produtos.
+  - O sistema permite que somente administradores atualizem e excluam vendas.
+  
 ## Estrutura do Projeto
 
 O projeto segue a arquitetura Layered Architecture, organizado nas seguintes camadas:

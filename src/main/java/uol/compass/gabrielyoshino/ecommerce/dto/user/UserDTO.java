@@ -1,5 +1,7 @@
 package uol.compass.gabrielyoshino.ecommerce.dto.user;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import java.util.List;
 
 public class UserDTO {
@@ -7,12 +9,12 @@ public class UserDTO {
     private String id;
     private String name;
     private String email;
-    private List<String> roles;
+    private List<SimpleGrantedAuthority> roles;
 
     public UserDTO() {
     }
 
-    public UserDTO(String id, String name, String email, List<String> roles) {
+    public UserDTO(String id, String name, String email, List<SimpleGrantedAuthority> roles) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -43,11 +45,11 @@ public class UserDTO {
         this.email = email;
     }
 
-    public List<String> getRoles() {
+    public List<SimpleGrantedAuthority> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<String> roles) {
+    public void setRoles(List<SimpleGrantedAuthority> roles) {
         this.roles = roles;
     }
 }

@@ -20,10 +20,4 @@ public class UserController {
         List<UserDTO> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
-
-    @PostMapping("{userId}/roles")
-    public ResponseEntity<UserDTO> addRoleToUser(@PathVariable String userId, @RequestBody List<String> roles) {
-        UserDTO updatedUser = userService.addRolesToUser(userId, roles);
-        return ResponseEntity.ok(updatedUser);
-    }
 }

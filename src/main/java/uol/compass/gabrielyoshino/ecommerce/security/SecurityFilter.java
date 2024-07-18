@@ -38,7 +38,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                var authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
              */
             // Tentei implementar de acordo com a lógica do projeto que tem a distinção entre usuário comum e admin
-            var authorities = user.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+            var authorities = user.getRoles().stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role)).collect(Collectors.toList());
             var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

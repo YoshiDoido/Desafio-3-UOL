@@ -42,7 +42,33 @@ entity "VendaProduto" {
     quantidade: int
 }
 
+entity "User" {
+    * id: String
+    --
+    name: String
+    email: String
+    password: String
+    roles: List<String>
+    tempToken: TempToken
+    --
+    register()
+    login()
+    resetPassword()
+    newPassword()
+}
+
+entity "TempToken" {
+    * id: Long
+    --
+    token: String
+}
+
+' Relacionamentos existentes
 Produto ||--o{ VendaProduto: contém
 Venda ||--o{ VendaProduto: contém
+User ||--o{ TempToken: usa
+
+' Anotações para explicar o uso de TempToken
+User --> TempToken : "gera um token\n temporário para\n resetPassword()"
 
 @enduml
